@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -47,7 +48,7 @@ public class DashBoardController {
     }
 
     @GetMapping(produces = "application/json", value = "simulation/{id}")
-    public ResponseEntity<SimulationData> getSimulationData(@PathVariable String id, @RequestParam int count)  {
+    public ResponseEntity<SimulationData> getSimulationData(@PathVariable String id, @RequestParam Optional<Integer> count)  {
         try {
             if (service.simulationExists(id)) {
                 return ResponseEntity.ok(service.getSimulationData(id, count));

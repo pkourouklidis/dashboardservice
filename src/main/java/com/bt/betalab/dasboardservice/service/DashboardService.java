@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DashboardService {
@@ -65,8 +66,8 @@ public class DashboardService {
         return reply.getBody();
     }
 
-    public SimulationData getSimulationData(String id, int count) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/simulation/" + id + "?" + count);
+    public SimulationData getSimulationData(String id, Optional<Integer> count) throws DashboardServiceException {
+        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/simulation/" + id + (count.isPresent() ? "?count=" + count.get() : ""));
         ResponseEntity<SimulationData> reply = webClient
                 .get()
                 .retrieve()

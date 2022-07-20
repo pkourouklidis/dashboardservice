@@ -7,12 +7,12 @@
 
 package com.bt.betalab.dasboardservice.api;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class SimulationData {
     private String simulationId;
-    private Timestamp startTime;
+    private Instant startTime;
     private int workers;
     private int totalCalls;
     private int bouncedCalls;
@@ -23,6 +23,8 @@ public class SimulationData {
     private long shortestWaitTime;
     private long averagePredictedHappiness;
     private long averageActualHappiness;
+
+    private long easyFraction = 0;
     private List<CallData> calls;
 
     public String getSimulationId() {
@@ -33,11 +35,11 @@ public class SimulationData {
         this.simulationId = simulationId;
     }
 
-    public Timestamp getStartTime() {
+    public Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
@@ -119,6 +121,14 @@ public class SimulationData {
 
     public void setAverageActualHappiness(long averageActualHappiness) {
         this.averageActualHappiness = averageActualHappiness;
+    }
+
+    public long getEasyFraction() {
+        return easyFraction;
+    }
+
+    public void setEasyFraction(long easyFraction) {
+        this.easyFraction = easyFraction;
     }
 
     public List<CallData> getCalls() {
