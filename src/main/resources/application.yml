@@ -43,7 +43,7 @@ management:
 
 dashboardservice:
   dataServiceUrl: SETINENV
-  adminService: SETINENV
+  adminServiceUrl: SETINENV
 
 ---
 #=======================================================================================
