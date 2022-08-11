@@ -36,7 +36,7 @@ public class DashboardService {
     DashboardServiceConfig config;
 
     public void reportCallData(CallData request) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/report");
+        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/report");
         ResponseEntity reply = webClient
                 .post()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -52,7 +52,7 @@ public class DashboardService {
     }
 
     public SimulationStatus getCurrentSimulationStatus() throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getAdminServiceUrl() + "/status");
+        WebClient webClient = clientFactory.generateWebClient(config.getAdminServiceUrl() + "/api/v1/simulation/status");
         ResponseEntity<SimulationStatus> reply = webClient
                 .get()
                 .retrieve()
@@ -67,7 +67,7 @@ public class DashboardService {
     }
 
     public SimulationData getSimulationData(String id, Optional<Integer> count) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/simulation/" + id + (count.isPresent() ? "?count=" + count.get() : ""));
+        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/simulation/" + id + (count.isPresent() ? "?count=" + count.get() : ""));
         ResponseEntity<SimulationData> reply = webClient
                 .get()
                 .retrieve()
@@ -82,7 +82,7 @@ public class DashboardService {
     }
 
     public List<SimulationSummary> getSimulations() throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/simulation/");
+        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/simulation/");
         ResponseEntity reply = webClient
                 .get()
                 .retrieve()
@@ -97,7 +97,7 @@ public class DashboardService {
     }
 
     public boolean simulationExists(String id) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/simulation/" +id);
+        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/simulation/" +id);
         ResponseEntity reply = webClient
                 .get()
                 .retrieve()
@@ -106,7 +106,7 @@ public class DashboardService {
 
         if (reply.getStatusCode().value() == 404) {
             return false;
-        } else if (!reply.getStatusCode().is2xxSuccessful()) {
+        } else if (reply.getStatusCode().is2xxSuccessful()) {
             return true;
         }
         Logger.log("Failed to communicate with data service backend. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);

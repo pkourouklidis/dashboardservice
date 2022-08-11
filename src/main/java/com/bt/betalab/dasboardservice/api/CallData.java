@@ -23,6 +23,10 @@ public class CallData {
     private String simulationId;
     private String simulationStartTime;
 
+    private int workers;
+
+    private int callDelay;
+
     public Customer getCustomer() {
         return customer;
     }
@@ -101,5 +105,21 @@ public class CallData {
 
     public void setWorkerDetails(WorkerDetails workerDetails) {
         this.workerDetails = workerDetails;
+    }
+
+    public int getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(int workers) {
+        this.workers = workers;
+    }
+
+    public int getCallDelay() {
+        return callDelay;
+    }
+
+    public void setCallDelay(int callDelay) {
+        this.callDelay = callDelay;
     }
 }

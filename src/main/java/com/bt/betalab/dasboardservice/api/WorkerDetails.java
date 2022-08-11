@@ -16,6 +16,8 @@ public class WorkerDetails {
         this.isFast = isFast;
     }
 
+    public WorkerDetails() {}
+
     public boolean getIsSkilled() {
         return isSkilled;
     }

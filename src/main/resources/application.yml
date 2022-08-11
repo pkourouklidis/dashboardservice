@@ -54,6 +54,9 @@ spring:
 server:
   port: 8080
 
+dashboardservice:
+  dataServiceUrl: https://data-service.dashboard.callcentre.betalab.rp.bt.com
+  adminServiceUrl: https://admin-service.digitaltwin.callcentre.betalab.rp.bt.com
 
 ---
 #=======================================================================================

@@ -7,12 +7,15 @@
 
 package com.bt.betalab.dasboardservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DashboardServiceConfig {
+    @Value(value = "${dashboardservice.dataServiceUrl}")
     private String dataServiceUrl;
 
+    @Value(value = "${dashboardservice.adminServiceUrl}")
     private String adminServiceUrl;
 
     public String getDataServiceUrl() {
