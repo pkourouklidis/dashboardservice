@@ -12,14 +12,6 @@ import java.time.Instant;
 public class SimulationStatus {
     private String simulationId;
     private Instant simulationStartTime;
-
-    private int callDelay;
-    private int difficultyBias;
-    private int waitTimeBias;
-    private int serviceTimeBias;
-    private int understandingBias;
-    private int workers;
-
     private int queueDepth;
     private int activeWorkers;
     private String status;
@@ -38,54 +30,6 @@ public class SimulationStatus {
 
     public void setSimulationStartTime(Instant simulationStartTime) {
         this.simulationStartTime = simulationStartTime;
-    }
-
-    public int getCallDelay() {
-        return callDelay;
-    }
-
-    public void setCallDelay(int callDelay) {
-        this.callDelay = callDelay;
-    }
-
-    public int getDifficultyBias() {
-        return difficultyBias;
-    }
-
-    public void setDifficultyBias(int difficultyBias) {
-        this.difficultyBias = difficultyBias;
-    }
-
-    public int getWaitTimeBias() {
-        return waitTimeBias;
-    }
-
-    public void setWaitTimeBias(int waitTimeBias) {
-        this.waitTimeBias = waitTimeBias;
-    }
-
-    public int getServiceTimeBias() {
-        return serviceTimeBias;
-    }
-
-    public void setServiceTimeBias(int serviceTimeBias) {
-        this.serviceTimeBias = serviceTimeBias;
-    }
-
-    public int getUnderstandingBias() {
-        return understandingBias;
-    }
-
-    public void setUnderstandingBias(int understandingBias) {
-        this.understandingBias = understandingBias;
-    }
-
-    public int getWorkers() {
-        return workers;
-    }
-
-    public void setWorkers(int workers) {
-        this.workers = workers;
     }
 
     public int getQueueDepth() {
