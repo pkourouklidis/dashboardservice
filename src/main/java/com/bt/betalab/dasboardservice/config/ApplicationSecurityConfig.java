@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ApplicationSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().disable()
+                http.cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers("/_/health").permitAll()
