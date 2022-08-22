@@ -7,10 +7,7 @@
 
 package com.bt.betalab.dasboardservice.controller;
 
-import com.bt.betalab.dasboardservice.api.CallData;
-import com.bt.betalab.dasboardservice.api.SimulationData;
-import com.bt.betalab.dasboardservice.api.SimulationStatus;
-import com.bt.betalab.dasboardservice.api.SimulationSummary;
+import com.bt.betalab.dasboardservice.api.*;
 import com.bt.betalab.dasboardservice.exceptions.DashboardServiceException;
 import com.bt.betalab.dasboardservice.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +60,33 @@ public class DashBoardController {
     public ResponseEntity<List<SimulationSummary>> getSimulations()  {
         try {
             return ResponseEntity.ok(service.getSimulations());
+        } catch (DashboardServiceException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping(produces = "application/json", value = "aideployment/status")
+    public ResponseEntity<AIDeploymentStatus> getAIDeploymentStatus()  {
+        try {
+            return ResponseEntity.ok(service.getAIDeploymentStatus());
+        } catch (DashboardServiceException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping(produces = "application/json", value = "aideployment/drift")
+    public ResponseEntity<DriftData> getAIDeploymentDriftData(@RequestParam Integer count)  {
+        try {
+            return ResponseEntity.ok(service.getAIDeploymentDriftData(count));
+        } catch (DashboardServiceException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping(produces = "application/json", value = "aideployment/drift/{id}")
+    public ResponseEntity<DriftExecutionData> getAIDeploymentDriftExecData(@PathVariable String id, @RequestParam Integer count)  {
+        try {
+            return ResponseEntity.ok(service.getAIDeploymentDriftExecData(id, count));
         } catch (DashboardServiceException e) {
             return ResponseEntity.internalServerError().build();
         }

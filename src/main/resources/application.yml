@@ -44,6 +44,7 @@ management:
 dashboardservice:
   dataServiceUrl: SETINENV
   adminServiceUrl: SETINENV
+  panoptesModelUrl: SETINENV
 
 ---
 #=======================================================================================
@@ -57,6 +58,7 @@ server:
 dashboardservice:
   dataServiceUrl: https://data-service.dashboard.callcentre.betalab.rp.bt.com
   adminServiceUrl: https://admin-service.digitaltwin.callcentre.betalab.rp.bt.com
+  panoptesModelUrl: https://whereverpanoptesislocated.com/api/v1/modelid
 
 ---
 #=======================================================================================

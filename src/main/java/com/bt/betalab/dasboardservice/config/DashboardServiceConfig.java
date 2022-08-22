@@ -18,6 +18,9 @@ public class DashboardServiceConfig {
     @Value(value = "${dashboardservice.adminServiceUrl}")
     private String adminServiceUrl;
 
+    @Value(value = "${dashboardservice.panoptesModelUrl}")
+    private String panoptesModelUrl;
+
     public String getDataServiceUrl() {
         return dataServiceUrl;
     }
@@ -32,5 +35,13 @@ public class DashboardServiceConfig {
 
     public void setAdminServiceUrl(String adminServiceUrl) {
         this.adminServiceUrl = adminServiceUrl;
+    }
+
+    public String getPanoptesModelUrl() {
+        return panoptesModelUrl;
+    }
+
+    public void setPanoptesModelUrl(String panoptesModelUrl) {
+        this.panoptesModelUrl = panoptesModelUrl;
     }
 }

@@ -7,16 +7,12 @@
 
 package com.bt.betalab.dasboardservice.service;
 
-import com.bt.betalab.dasboardservice.api.CallData;
-import com.bt.betalab.dasboardservice.api.SimulationData;
-import com.bt.betalab.dasboardservice.api.SimulationStatus;
-import com.bt.betalab.dasboardservice.api.SimulationSummary;
+import com.bt.betalab.dasboardservice.api.*;
 import com.bt.betalab.dasboardservice.config.DashboardServiceConfig;
 import com.bt.betalab.dasboardservice.exceptions.DashboardServiceException;
 import com.bt.betalab.dasboardservice.logging.LogLevel;
 import com.bt.betalab.dasboardservice.logging.Logger;
 import com.bt.betalab.dasboardservice.messaging.WebClientFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -111,5 +107,50 @@ public class DashboardService {
         }
         Logger.log("Failed to communicate with data service backend. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
         throw new DashboardServiceException();
+    }
+
+    public AIDeploymentStatus getAIDeploymentStatus() throws DashboardServiceException {
+        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/status/");
+        ResponseEntity reply = webClient
+                .get()
+                .retrieve()
+                .toEntity(AIDeploymentStatus.class)
+                .block();
+
+        if (!reply.getStatusCode().is2xxSuccessful()) {
+            Logger.log("Failed to retrieve AI deployment status. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+            throw new DashboardServiceException();
+        }
+        return (AIDeploymentStatus) reply.getBody();
+    }
+
+    public DriftData getAIDeploymentDriftData(int count) throws DashboardServiceException {
+        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/drift?count=" + count + "/");
+        ResponseEntity reply = webClient
+                .get()
+                .retrieve()
+                .toEntity(DriftData.class)
+                .block();
+
+        if (!reply.getStatusCode().is2xxSuccessful()) {
+            Logger.log("Failed to retrieve data drift list for AI deployment. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+            throw new DashboardServiceException();
+        }
+        return (DriftData) reply.getBody();
+    }
+
+    public DriftExecutionData getAIDeploymentDriftExecData(String id, int count) throws DashboardServiceException {
+        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/drift/" + id + "?count=" + count + "/");
+        ResponseEntity reply = webClient
+                .get()
+                .retrieve()
+                .toEntity(DriftExecutionData.class)
+                .block();
+
+        if (!reply.getStatusCode().is2xxSuccessful()) {
+            Logger.log("Failed to retrieve data drift executions list for AI deployment. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+            throw new DashboardServiceException();
+        }
+        return (DriftExecutionData) reply.getBody();
     }
 }

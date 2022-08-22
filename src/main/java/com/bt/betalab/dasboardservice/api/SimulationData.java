@@ -17,13 +17,26 @@ public class SimulationData {
     private int totalCalls;
     private int bouncedCalls;
     private int resolvedCalls;
+    private int unresolvedCalls;
     private long callDelay;
+
+    private long overallWaitTime;
     private long averageWaitTime;
     private long longestWaitTime;
     private long shortestWaitTime;
+
+    private long overallServiceTime;
+    private long averageServiceTime;
+    private long longestServiceTime;
+    private long shortestServiceTime;
+
+    private long predictedHappinessSum;
     private long averagePredictedHappiness;
+
+    private long actualHappinessSum;
     private long averageActualHappiness;
 
+    private long easySum;
     private long easyFraction = 0;
     private List<CallData> calls;
 
@@ -137,5 +150,77 @@ public class SimulationData {
 
     public void setCalls(List<CallData> calls) {
         this.calls = calls;
+    }
+
+    public int getUnresolvedCalls() {
+        return unresolvedCalls;
+    }
+
+    public void setUnresolvedCalls(int unresolvedCalls) {
+        this.unresolvedCalls = unresolvedCalls;
+    }
+
+    public long getOverallWaitTime() {
+        return overallWaitTime;
+    }
+
+    public void setOverallWaitTime(long overallWaitTime) {
+        this.overallWaitTime = overallWaitTime;
+    }
+
+    public long getOverallServiceTime() {
+        return overallServiceTime;
+    }
+
+    public void setOverallServiceTime(long overallServiceTime) {
+        this.overallServiceTime = overallServiceTime;
+    }
+
+    public long getAverageServiceTime() {
+        return averageServiceTime;
+    }
+
+    public void setAverageServiceTime(long averageServiceTime) {
+        this.averageServiceTime = averageServiceTime;
+    }
+
+    public long getLongestServiceTime() {
+        return longestServiceTime;
+    }
+
+    public void setLongestServiceTime(long longestServiceTime) {
+        this.longestServiceTime = longestServiceTime;
+    }
+
+    public long getShortestServiceTime() {
+        return shortestServiceTime;
+    }
+
+    public void setShortestServiceTime(long shortestServiceTime) {
+        this.shortestServiceTime = shortestServiceTime;
+    }
+
+    public long getPredictedHappinessSum() {
+        return predictedHappinessSum;
+    }
+
+    public void setPredictedHappinessSum(long predictedHappinessSum) {
+        this.predictedHappinessSum = predictedHappinessSum;
+    }
+
+    public long getActualHappinessSum() {
+        return actualHappinessSum;
+    }
+
+    public void setActualHappinessSum(long actualHappinessSum) {
+        this.actualHappinessSum = actualHappinessSum;
+    }
+
+    public long getEasySum() {
+        return easySum;
+    }
+
+    public void setEasySum(long easySum) {
+        this.easySum = easySum;
     }
 }
