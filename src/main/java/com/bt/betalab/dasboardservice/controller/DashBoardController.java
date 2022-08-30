@@ -73,22 +73,4 @@ public class DashBoardController {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-    @GetMapping(produces = "application/json", value = "aideployment/drift")
-    public ResponseEntity<DriftData> getAIDeploymentDriftData(@RequestParam Integer count)  {
-        try {
-            return ResponseEntity.ok(service.getAIDeploymentDriftData(count));
-        } catch (DashboardServiceException e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
-    @GetMapping(produces = "application/json", value = "aideployment/drift/{id}")
-    public ResponseEntity<DriftExecutionData> getAIDeploymentDriftExecData(@PathVariable String id, @RequestParam Integer count)  {
-        try {
-            return ResponseEntity.ok(service.getAIDeploymentDriftExecData(id, count));
-        } catch (DashboardServiceException e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
 }

@@ -18,6 +18,8 @@ public class AIDeploymentStatus {
     private boolean healthy;
     private List<ObservationType> observations;
 
+    private DriftData data;
+
     public String getId() {
         return id;
     }
@@ -64,5 +66,21 @@ public class AIDeploymentStatus {
 
     public void setObservations(List<ObservationType> observations) {
         this.observations = observations;
+    }
+
+    public boolean isHealthy() {
+        return healthy;
+    }
+
+    public void setHealthy(boolean healthy) {
+        this.healthy = healthy;
+    }
+
+    public DriftData getData() {
+        return data;
+    }
+
+    public void setData(DriftData data) {
+        this.data = data;
     }
 }

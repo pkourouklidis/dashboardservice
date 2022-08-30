@@ -121,11 +121,14 @@ public class DashboardService {
             Logger.log("Failed to retrieve AI deployment status. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
             throw new DashboardServiceException();
         }
-        return (AIDeploymentStatus) reply.getBody();
+
+        AIDeploymentStatus resultStatus = (AIDeploymentStatus) reply.getBody();
+        resultStatus.setData(getAIDeploymentDriftData(50));
+        return resultStatus;
     }
 
     public DriftData getAIDeploymentDriftData(int count) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/drift?count=" + count + "/");
+        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/drift?count=" + count);
         ResponseEntity reply = webClient
                 .get()
                 .retrieve()
@@ -137,20 +140,5 @@ public class DashboardService {
             throw new DashboardServiceException();
         }
         return (DriftData) reply.getBody();
-    }
-
-    public DriftExecutionData getAIDeploymentDriftExecData(String id, int count) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/drift/" + id + "?count=" + count + "/");
-        ResponseEntity reply = webClient
-                .get()
-                .retrieve()
-                .toEntity(DriftExecutionData.class)
-                .block();
-
-        if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to retrieve data drift executions list for AI deployment. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
-            throw new DashboardServiceException();
-        }
-        return (DriftExecutionData) reply.getBody();
     }
 }
