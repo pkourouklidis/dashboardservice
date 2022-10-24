@@ -114,7 +114,7 @@ public class DashboardService {
     }
 
     public AIDeploymentStatus getAIDeploymentStatus() throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/deployments/callcenter");
+        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/api/v1/deployments/callcenter");
         try {
             ResponseEntity<AIDeploymentStatus> reply = webClient
                     .get()
