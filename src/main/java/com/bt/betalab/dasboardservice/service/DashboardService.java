@@ -4,7 +4,6 @@
  * Copyright (c) British Telecommunications plc 2022
  **/
 
-
 package com.bt.betalab.dasboardservice.service;
 
 import com.bt.betalab.dasboardservice.api.*;
@@ -13,8 +12,6 @@ import com.bt.betalab.dasboardservice.exceptions.DashboardServiceException;
 import com.bt.betalab.dasboardservice.logging.LogLevel;
 import com.bt.betalab.dasboardservice.logging.Logger;
 import com.bt.betalab.dasboardservice.messaging.WebClientFactory;
-
-import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,84 +34,94 @@ public class DashboardService {
 
     public void reportCallData(CallData request) throws DashboardServiceException {
         WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/report");
-        ResponseEntity reply = webClient
-                .post()
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(request)
-                .retrieve()
-                .toBodilessEntity()
-                .block();
-
-        if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to report call result. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+        try{
+            webClient
+            .post()
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(request)
+            .retrieve()
+            .toBodilessEntity()
+            .block();
+        }
+        catch (WebClientResponseException e) {
+            Logger.log("Failed to report call result. Error code: " + e.getRawStatusCode(), LogLevel.ERROR);
             throw new DashboardServiceException();
         }
     }
 
     public SimulationStatus getCurrentSimulationStatus() throws DashboardServiceException {
         WebClient webClient = clientFactory.generateWebClient(config.getAdminServiceUrl() + "/api/v1/simulation/status");
-        ResponseEntity<SimulationStatus> reply = webClient
-                .get()
-                .retrieve()
-                .toEntity(SimulationStatus.class)
-                .block();
-
-        if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to retrieve simulation status. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+        try{
+            ResponseEntity<SimulationStatus> reply = webClient
+            .get()
+            .retrieve()
+            .toEntity(SimulationStatus.class)
+            .block();
+            return reply.getBody();
+        }
+        catch (WebClientResponseException e) {
+            Logger.log("Failed to retrieve simulation status. Error code: " + e.getRawStatusCode(), LogLevel.ERROR);
             throw new DashboardServiceException();
         }
-        return reply.getBody();
     }
 
     public SimulationData getSimulationData(String id, Optional<Integer> count) throws DashboardServiceException {
         WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/simulation/" + id + (count.isPresent() ? "?count=" + count.get() : ""));
-        ResponseEntity<SimulationData> reply = webClient
-                .get()
-                .retrieve()
-                .toEntity(SimulationData.class)
-                .block();
+        try{
+            ResponseEntity<SimulationData> reply = webClient
+            .get()
+            .retrieve()
+            .toEntity(SimulationData.class)
+            .block();
+            return reply.getBody();
+        }
 
-        if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to retrieve simulation data. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+
+        catch (WebClientResponseException e) {
+            Logger.log("Failed to retrieve simulation data. Error code: " + e.getRawStatusCode(), LogLevel.ERROR);
             throw new DashboardServiceException();
         }
-        return reply.getBody();
     }
 
     public List<SimulationSummary> getSimulations() throws DashboardServiceException {
         WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/simulation/");
-        ResponseEntity reply = webClient
-                .get()
-                .retrieve()
-                .toEntity(List.class)
-                .block();
-
-        if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to retrieve simulation list. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+        try{
+            ResponseEntity reply = webClient
+            .get()
+            .retrieve()
+            .toEntity(List.class)
+            .block();
+            return (List<SimulationSummary>) reply.getBody();
+        }
+        catch (WebClientResponseException e) {
+            Logger.log("Failed to retrieve simulation list. Error code: " + e.getRawStatusCode(), LogLevel.ERROR);
             throw new DashboardServiceException();
         }
-        return (List<SimulationSummary>) reply.getBody();
     }
 
     public boolean simulationExists(String id) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/simulation/" +id);
-        ResponseEntity reply = webClient
-                .get()
-                .retrieve()
-                .toBodilessEntity()
-                .block();
+        WebClient webClient = clientFactory.generateWebClient(config.getDataServiceUrl() + "/api/v1/simulation/" + id);
+        try {
+            ResponseEntity<Void> reply = webClient
+                    .get()
+                    .retrieve()
+                    .toBodilessEntity()
+                    .block();
 
-        if (reply.getStatusCode().value() == 404) {
+            if (reply.getStatusCode().is2xxSuccessful()) {
+                return true;
+            }
             return false;
-        } else if (reply.getStatusCode().is2xxSuccessful()) {
-            return true;
+        } catch (WebClientResponseException e) {
+            Logger.log("Failed to communicate with data service backend. Error code: " + e.getRawStatusCode(),
+                    LogLevel.ERROR);
+            throw new DashboardServiceException();
         }
-        Logger.log("Failed to communicate with data service backend. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
-        throw new DashboardServiceException();
     }
 
     public AIDeploymentStatus getAIDeploymentStatus() throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/api/v1/deployments/callcenter");
+        WebClient webClient = clientFactory
+                .generateWebClient(config.getPanoptesModelUrl() + "/api/v1/deployments/callcenter");
         try {
             ResponseEntity<AIDeploymentStatus> reply = webClient
                     .get()
@@ -133,16 +140,19 @@ public class DashboardService {
 
     public DriftData getAIDeploymentDriftData(int count) throws DashboardServiceException {
         WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/drift?count=" + count);
-        ResponseEntity reply = webClient
-                .get()
-                .retrieve()
-                .toEntity(DriftData.class)
-                .block();
+        try {
+            ResponseEntity<DriftData> reply = webClient
+                    .get()
+                    .retrieve()
+                    .toEntity(DriftData.class)
+                    .block();
+            return reply.getBody();
+        }
 
-        if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to retrieve data drift list for AI deployment. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+        catch (WebClientResponseException e) {
+            Logger.log("Failed to retrieve data drift list for AI deployment. Error code: " + e.getRawStatusCode(),
+                    LogLevel.ERROR);
             throw new DashboardServiceException();
         }
-        return (DriftData) reply.getBody();
     }
 }
