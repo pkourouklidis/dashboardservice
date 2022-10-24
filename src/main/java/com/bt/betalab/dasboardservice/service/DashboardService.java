@@ -13,6 +13,9 @@ import com.bt.betalab.dasboardservice.exceptions.DashboardServiceException;
 import com.bt.betalab.dasboardservice.logging.LogLevel;
 import com.bt.betalab.dasboardservice.logging.Logger;
 import com.bt.betalab.dasboardservice.messaging.WebClientFactory;
+
+import reactor.core.publisher.Mono;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -110,20 +113,22 @@ public class DashboardService {
     }
 
     public AIDeploymentStatus getAIDeploymentStatus() throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/status/");
+        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/deployments/callcenter");
         ResponseEntity reply = webClient
                 .get()
                 .retrieve()
                 .toEntity(AIDeploymentStatus.class)
+                .onErrorResume(ex -> Mono.empty())
                 .block();
 
         if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to retrieve AI deployment status. Error code: " + reply.getStatusCodeValue(), LogLevel.ERROR);
+            Logger.log("Failed to retrieve AI deployment status. Error code: " + reply.getStatusCodeValue(),
+                    LogLevel.ERROR);
             throw new DashboardServiceException();
         }
 
         AIDeploymentStatus resultStatus = (AIDeploymentStatus) reply.getBody();
-        resultStatus.setData(getAIDeploymentDriftData(50));
+        // resultStatus.setData(getAIDeploymentDriftData(50));
         return resultStatus;
     }
 
