@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 import java.util.Optional;
@@ -114,22 +115,20 @@ public class DashboardService {
 
     public AIDeploymentStatus getAIDeploymentStatus() throws DashboardServiceException {
         WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/deployments/callcenter");
-        ResponseEntity reply = webClient
-                .get()
-                .retrieve()
-                .toEntity(AIDeploymentStatus.class)
-                .onErrorResume(ex -> Mono.empty())
-                .block();
-
-        if (!reply.getStatusCode().is2xxSuccessful()) {
-            Logger.log("Failed to retrieve AI deployment status. Error code: " + reply.getStatusCodeValue(),
+        try {
+            ResponseEntity<AIDeploymentStatus> reply = webClient
+                    .get()
+                    .retrieve()
+                    .toEntity(AIDeploymentStatus.class)
+                    .block();
+            AIDeploymentStatus resultStatus = reply.getBody();
+            // resultStatus.setData(getAIDeploymentDriftData(50));
+            return resultStatus;
+        } catch (WebClientResponseException e) {
+            Logger.log("Failed to retrieve AI deployment status. Error code: " + e.getRawStatusCode(),
                     LogLevel.ERROR);
             throw new DashboardServiceException();
         }
-
-        AIDeploymentStatus resultStatus = (AIDeploymentStatus) reply.getBody();
-        // resultStatus.setData(getAIDeploymentDriftData(50));
-        return resultStatus;
     }
 
     public DriftData getAIDeploymentDriftData(int count) throws DashboardServiceException {
