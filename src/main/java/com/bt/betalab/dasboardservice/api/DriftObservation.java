@@ -14,7 +14,7 @@ public class DriftObservation {
     private String algorithm;
     private List<String> historicFeatures;
     private List<String> liveFeatures;
-    private Date timeStamp;
+    private Date timestamp;
     private String rawValue;
     private int level;
     
