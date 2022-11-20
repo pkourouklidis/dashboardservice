@@ -10,40 +10,48 @@ package com.bt.betalab.dasboardservice.api;
 import java.time.Instant;
 
 public class DriftObservation {
+    private String algorithm;
+    private List<String> historicFeatures;
+    private List<String> liveFeatures;
     private Instant timeStamp;
     private long rawValue;
-    private long discretisedValue;
-    private boolean unacceptableDrift;
-
-    public Instant getTimeStamp() {
-        return timeStamp;
+    private long level;
+    
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
     }
-
+    public void setHistoricFeatures(List<String> historicFeatures) {
+        this.historicFeatures = historicFeatures;
+    }
+    public void setLiveFeatures(List<String> liveFeatures) {
+        this.liveFeatures = liveFeatures;
+    }
     public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
     }
-
-    public long getRawValue() {
-        return rawValue;
-    }
-
     public void setRawValue(long rawValue) {
         this.rawValue = rawValue;
     }
-
-    public long getDiscretisedValue() {
-        return discretisedValue;
+    public void setLevel(long level) {
+        this.level = level;
+    }
+    public String getAlgorithm() {
+        return algorithm;
+    }
+    public List<String> getHistoricFeatures() {
+        return historicFeatures;
+    }
+    public List<String> getLiveFeatures() {
+        return liveFeatures;
+    }
+    public Instant getTimeStamp() {
+        return timeStamp;
+    }
+    public long getRawValue() {
+        return rawValue;
+    }
+    public long getLevel() {
+        return level;
     }
 
-    public void setDiscretisedValue(long discretisedValue) {
-        this.discretisedValue = discretisedValue;
-    }
-
-    public boolean getIsUnacceptableDrift() {
-        return unacceptableDrift;
-    }
-
-    public void setIsUnacceptableDrift(boolean unacceptableDrift) {
-        this.unacceptableDrift = unacceptableDrift;
-    }
 }

@@ -10,40 +10,13 @@ package com.bt.betalab.dasboardservice.api;
 import java.util.List;
 
 public class DriftData {
-    private String id;
-    private long upperBound;
-    private long lowerBound;
-    private List<AlgorithmExecution> algorithmExecutions;
+    private List<DriftObservation> driftObservations;
 
-    public String getId() {
-        return id;
+    public List<DriftObservation> getDriftObservations() {
+        return driftObservations;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public long getUpperBound() {
-        return upperBound;
-    }
-
-    public void setUpperBound(long upperBound) {
-        this.upperBound = upperBound;
-    }
-
-    public long getLowerBound() {
-        return lowerBound;
-    }
-
-    public void setLowerBound(long lowerBound) {
-        this.lowerBound = lowerBound;
-    }
-
-    public List<AlgorithmExecution> getAlgorithmExecutions() {
-        return algorithmExecutions;
-    }
-
-    public void setAlgorithmExecutions(List<AlgorithmExecution> algorithmExecutions) {
-        this.algorithmExecutions = algorithmExecutions;
+    public void setDriftObservations(List<DriftObservation> driftObservations) {
+        this.driftObservations = driftObservations;
     }
 }
