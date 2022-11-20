@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import com.bt.betalab.dasboardservice.api.AIDeploymentStatus;
 import com.bt.betalab.dasboardservice.api.CallData;
 import com.bt.betalab.dasboardservice.api.DriftObservation;
 import com.bt.betalab.dasboardservice.api.SimulationData;
