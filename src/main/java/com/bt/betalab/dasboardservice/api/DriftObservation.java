@@ -15,8 +15,8 @@ public class DriftObservation {
     private List<String> historicFeatures;
     private List<String> liveFeatures;
     private Instant timeStamp;
-    private long rawValue;
-    private long level;
+    private String rawValue;
+    private int level;
     
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
@@ -30,10 +30,10 @@ public class DriftObservation {
     public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
     }
-    public void setRawValue(long rawValue) {
+    public void setRawValue(String rawValue) {
         this.rawValue = rawValue;
     }
-    public void setLevel(long level) {
+    public void setLevel(int level) {
         this.level = level;
     }
     public String getAlgorithm() {
@@ -48,10 +48,10 @@ public class DriftObservation {
     public Instant getTimeStamp() {
         return timeStamp;
     }
-    public long getRawValue() {
+    public String getRawValue() {
         return rawValue;
     }
-    public long getLevel() {
+    public int getLevel() {
         return level;
     }
 
