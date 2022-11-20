@@ -7,14 +7,14 @@
 
 package com.bt.betalab.dasboardservice.api;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 public class DriftObservation {
     private String algorithm;
     private List<String> historicFeatures;
     private List<String> liveFeatures;
-    private Instant timeStamp;
+    private Date timeStamp;
     private String rawValue;
     private int level;
     
@@ -27,7 +27,7 @@ public class DriftObservation {
     public void setLiveFeatures(List<String> liveFeatures) {
         this.liveFeatures = liveFeatures;
     }
-    public void setTimeStamp(Instant timeStamp) {
+    public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
     public void setRawValue(String rawValue) {
@@ -45,7 +45,7 @@ public class DriftObservation {
     public List<String> getLiveFeatures() {
         return liveFeatures;
     }
-    public Instant getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
     public String getRawValue() {
