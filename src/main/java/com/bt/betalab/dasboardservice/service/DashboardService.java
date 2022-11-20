@@ -139,7 +139,7 @@ public class DashboardService {
     }
 
     public DriftData getAIDeploymentDriftData(int count) throws DashboardServiceException {
-        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/drift?count=" + count);
+        WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/api/v1/deployments/callcenter/baseAlgorithmExecutions?count=" + count);
         try {
             ResponseEntity<DriftData> reply = webClient
                     .get()
