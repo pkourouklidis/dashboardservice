@@ -6,22 +6,27 @@
 
 package com.bt.betalab.dasboardservice.service;
 
-import com.bt.betalab.dasboardservice.api.*;
-import com.bt.betalab.dasboardservice.config.DashboardServiceConfig;
-import com.bt.betalab.dasboardservice.exceptions.DashboardServiceException;
-import com.bt.betalab.dasboardservice.logging.LogLevel;
-import com.bt.betalab.dasboardservice.logging.Logger;
-import com.bt.betalab.dasboardservice.messaging.WebClientFactory;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.util.List;
-import java.util.Optional;
+import com.bt.betalab.dasboardservice.api.CallData;
+import com.bt.betalab.dasboardservice.api.DriftObservation;
+import com.bt.betalab.dasboardservice.api.SimulationData;
+import com.bt.betalab.dasboardservice.api.SimulationStatus;
+import com.bt.betalab.dasboardservice.api.SimulationSummary;
+import com.bt.betalab.dasboardservice.config.DashboardServiceConfig;
+import com.bt.betalab.dasboardservice.exceptions.DashboardServiceException;
+import com.bt.betalab.dasboardservice.logging.LogLevel;
+import com.bt.betalab.dasboardservice.logging.Logger;
+import com.bt.betalab.dasboardservice.messaging.WebClientFactory;
 
 @Service
 public class DashboardService {
@@ -138,13 +143,13 @@ public class DashboardService {
         }
     }
 
-    public DriftData getAIDeploymentDriftData(int count) throws DashboardServiceException {
+    public List<DriftObservation> getAIDeploymentDriftData(int count) throws DashboardServiceException {
         WebClient webClient = clientFactory.generateWebClient(config.getPanoptesModelUrl() + "/api/v1/deployments/callcenter/baseAlgorithmExecutions?count=" + count);
         try {
-            ResponseEntity<DriftData> reply = webClient
+            ResponseEntity<List<DriftObservation>> reply = webClient
                     .get()
                     .retrieve()
-                    .toEntity(DriftData.class)
+                    .toEntity(new ParameterizedTypeReference<List<DriftObservation>>() {})
                     .block();
             return reply.getBody();
         }
