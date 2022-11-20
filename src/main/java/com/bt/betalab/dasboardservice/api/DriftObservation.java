@@ -27,8 +27,8 @@ public class DriftObservation {
     public void setLiveFeatures(List<String> liveFeatures) {
         this.liveFeatures = liveFeatures;
     }
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(Date timeStamp) {
+        this.timestamp = timeStamp;
     }
     public void setRawValue(String rawValue) {
         this.rawValue = rawValue;
@@ -45,8 +45,8 @@ public class DriftObservation {
     public List<String> getLiveFeatures() {
         return liveFeatures;
     }
-    public Date getTimeStamp() {
-        return timeStamp;
+    public Date getTimestamp() {
+        return timestamp;
     }
     public String getRawValue() {
         return rawValue;
