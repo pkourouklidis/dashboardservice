@@ -129,7 +129,7 @@ public class DashboardService {
                     .toEntity(AIDeploymentStatus.class)
                     .block();
             AIDeploymentStatus resultStatus = reply.getBody();
-            // resultStatus.setData(getAIDeploymentDriftData(50));
+            resultStatus.setData(getAIDeploymentDriftData(50));
             return resultStatus;
         } catch (WebClientResponseException e) {
             Logger.log("Failed to retrieve AI deployment status. Error code: " + e.getRawStatusCode(),
